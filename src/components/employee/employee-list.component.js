@@ -125,11 +125,7 @@ export class EmployeeList extends Component {
                     iconColor: '#60e004'
                 })
             }
-
-
         })
-
-
     }
 
     employeeList() {

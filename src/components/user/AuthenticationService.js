@@ -3,15 +3,12 @@ class AuthenticationService {
     successfulLogin(NIC, userRole){
         sessionStorage.setItem('authenticatedUserId', NIC);
         sessionStorage.setItem('authenticatedUserRole', userRole);
-       
     }
 
     logout(){
         console.log("User Id Removed"+'authenticatedUserId');
         console.log("User Id Role"+'authenticatedUserRole');
         sessionStorage.removeItem('authenticatedUserId');
-        
-       
         sessionStorage.removeItem('authenticatedUserRole');
     }
 
@@ -40,5 +37,4 @@ class AuthenticationService {
     }
 
 }
- 
 export default new AuthenticationService()

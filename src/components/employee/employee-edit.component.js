@@ -104,7 +104,7 @@ export default class  EditEmployee extends Component {
             age: this.state.age,
             phoneNumber: this.state.phoneNumber,
         }
-        console.log(this.state.empId.length);
+        console.log(employee);
         if (this.state.empId.length <= 5) {
             this.setState({ empIDError: "Employee ID should be 5 characters." })
         }else if (this.state.firstName.length <= 5) {
