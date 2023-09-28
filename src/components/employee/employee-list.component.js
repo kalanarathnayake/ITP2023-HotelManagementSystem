@@ -286,7 +286,7 @@ export class EmployeeList extends Component {
                             </div>
                             <div class="">
                                 <Modal show={this.state.show} onHide={this.closeModalBox} centered size={"xl"}>
-                                    <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
+                                    {/* <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
                                         <div class="">
                                             <Modal.Title className='items-center' >
                                                 <p className='font-semibold text-black uppercase '>
@@ -294,7 +294,7 @@ export class EmployeeList extends Component {
                                                 </p>
                                             </Modal.Title>
                                         </div>
-                                    </Modal.Header >
+                                    </Modal.Header > */}
                                     <Modal.Body className='border-2 rounded-lg shadow-md bg-gray-50'>
                                         <EditEmployee empId={this.state.id} key={this.state.id} close={this.closeModalBox} />
                                     </Modal.Body>

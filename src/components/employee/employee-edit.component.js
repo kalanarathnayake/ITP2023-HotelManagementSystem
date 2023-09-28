@@ -160,7 +160,10 @@ export default class  EditEmployee extends Component {
                                 <div class="grid grid-cols-1 gap-4 content-start pt-5 px-20">
                                     <div className="formdiv">
                                         <form className='' onSubmit={this.onSubmit}>
+                                        <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>
+                                                    Update Employee</p>
                                             <div class="grid grid-cols-3 gap-4 form-group">
+                                            
                                                 <div className="form-group">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Employee ID </label>
                                                     <input type="text"

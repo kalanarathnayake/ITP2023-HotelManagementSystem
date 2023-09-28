@@ -1,47 +1,53 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import * as Swal from "sweetalert2";
-
-
-
 export class CreateInventory extends Component {
     constructor(props) {
         super(props);
-        this.onChangeproductID = this.onChangeproductID.bind(this);
-        this.onChangeproductName = this.onChangeproductName.bind(this);
-        this.onChangeproductCategory = this.onChangeproductCategory.bind(this);
-        this.onChangequantity = this.onChangequantity.bind(this);
+        this.onChangeItemID = this.onChangeItemID.bind(this);
+        this.onChangeItemName = this.onChangeItemName.bind(this);
+        this.onChangeItemCategory = this.onChangeItemCategory.bind(this);
+        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.onChangeLocation = this.onChangeLocation.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            productID: '',
-            productName: '',
-            productCategory: '',
-            quantity: ''
+            itemId: '',
+            itemName: '',
+            itemCategory: '',
+            quantity: '',
+            location: '',
+            shortage: ''
         }
     }
 
-    onChangeproductID(e) {
+    onChangeItemID(e) {
         this.setState({
-            productID: e.target.value
+            itemId: e.target.value
         });
     }
 
-    onChangeproductName(e) {
+    onChangeItemName(e) {
         this.setState({
-            productName: e.target.value
+            itemName: e.target.value
         });
     }
 
-    onChangeproductCategory(e) {
+    onChangeItemCategory(e) {
         this.setState({
-            productCategory: e.target.value
+            itemCategory: e.target.value
         });
     }
 
-    onChangequantity(e) {
+    onChangeQuantity(e) {
         this.setState({
             quantity: e.target.value
+        });
+    }
+
+    onChangeLocation(e) {
+        this.setState({
+            location: e.target.value
         });
     }
 
@@ -49,34 +55,33 @@ export class CreateInventory extends Component {
         e.preventDefault();
 
         const inventory = {
-            productID: this.state.productID,
-            productName: this.state.productName,
-            productCategory: this.state.productCategory,
-            quantity: this.state.quantity
+            itemId: this.state.itemId,
+            itemName: this.state.itemName,
+            itemCategory: this.state.itemCategory,
+            quantity: this.state.quantity,
+            location: this.state.location,
+            shortage: false,
         }
 
         console.log(inventory);
 
-        if (this.state.productID.length < 3) {
-            this.setState({ proError: "Product Id cannot be shorter than 3 digits." })
-        }
-        else if (this.state.productName.length < 3) {
-            this.setState({ nameError: "Product Name cannot be shorter than 3 digits." })
-        }
-        else if (this.state.productCategory.length < 4) {
-            this.setState({ categoryError: "Product Category cannot be shorter than 4 digits." })
+        if (this.state.itemId.length < 3) {
+            this.setState({ itemIdError: "Product Id cannot be shorter than 3 digits." })
+        }else if (this.state.itemName.length < 3) {
+            this.setState({ itemNameError: "Product Name cannot be shorter than 3 digits." })
+        }else if (this.state.itemCategory.length == null) {
+            this.setState({ itemCategoryError: "Product Category cannot be shorter than 4 digits." })
         } else if (parseInt(this.state.quantity, 10) <= 0) {
             this.setState({ quantityError: "Quantity can not be minus" })
         } else if (this.state.quantity == null) {
-            this.setState({ quantitynotnullError: "Quantity can not be zero." })
+            this.setState({ quantityNotNullError: "Quantity can not be zero." })
+        }else if (this.state.location == null) {
+            this.setState({ locationError: "please add location details." })
         }
         else {
             axios.post('http://localhost:5000/inventory/', inventory)
-
-
                 .then(res => {
                     console.log(res);
-
                     if (res.status === 200) {
                         this.clearData();
                         Swal.fire({
@@ -87,7 +92,6 @@ export class CreateInventory extends Component {
                             confirmButtonColor: '#333533',
                             iconColor: '#60e004'
                         })
-
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -100,14 +104,17 @@ export class CreateInventory extends Component {
                     }
                 })
         }
+        window.location = '/inventory';
     }
 
     clearData = () => {
         this.setState({
-            productID: '',
-            productName: '',
-            productCategory: '',
-            quantity: ''
+            itemId: '',
+            itemName: '',
+            itemCategory: '',
+            quantity: '',
+            location: '',
+            shortage: ""
         })
     }
 
@@ -127,73 +134,94 @@ export class CreateInventory extends Component {
                                                 <div className="grid grid-cols-1 gap-4 form-group">
                                                     <div class="">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                            Product ID                                                        </label>
+                                                            Item ID                                                        
+                                                        </label>
                                                         <input
                                                             type="text"
                                                             required
                                                             className="form-control"
-                                                            value={this.state.productID}
-                                                            onChange={this.onChangeproductID}
-                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.proError}</p>
+                                                            value={this.state.itemId}
+                                                            onChange={this.onChangeItemID}
+                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.itemIdError}</p>
                                                     </div>
                                                 </div>
 
                                                 <div className="grid grid-cols-2 gap-4 form-group">
                                                     <div className="form-group">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                            Product Name                                                        </label>
+                                                            Item Name                                                        </label>
                                                         <input type="text"
                                                             required
                                                             className="form-control"
-                                                            value={this.state.productName}
-                                                            onChange={this.onChangeproductName}
-                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.nameError}</p>
+                                                            value={this.state.itemName}
+                                                            onChange={this.onChangeItemName}
+                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.itemNameError}</p>
                                                     </div>
+                                                    {/* <div class="">
+                                                        <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >
+                                                            Item Category                                                         </label>
+                                                        <input type="text"
+                                                            required
+                                                            className="form-control"
+                                                            value={this.state.itemCategory}
+                                                            onChange={this.onChangeItemCategory}
+                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.categoryError}</p>
+                                                    </div> */}
+
                                                     <div class="">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >
-                                                            Product Category                                                         </label>
-                                                        <input type="text"
-                                                            required
+                                                            Item Category
+                                                        </label>
+                                                        <select type="text"
                                                             className="form-control"
-                                                            value={this.state.productCategory}
-                                                            onChange={this.onChangeproductCategory}
-                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.categoryError}</p>
+                                                            value={this.state.itemCategory}
+                                                            onChange={this.onChangeItemCategory}
+                                                        >
+                                                            <option value = "null" >Select Size</option>
+                                                            <option value="cat1">Cat 1</option>
+                                                            <option value="cat2">Cat 2</option>
+                                                            <option value="cat3">Cat 3</option>
+                                                        </select>
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.itemCategoryError}</p>
                                                     </div>
                                                 </div>
-                                                <div className="grid grid-cols-1 gap-4 form-group">
+                                                <div className="grid grid-cols-2 gap-4 form-group">
                                                     <div className="form-group">
                                                         <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
                                                             Quantity                                                    </label>
                                                         <input type="text"
                                                             className="form-control"
                                                             value={this.state.quantity}
-                                                            onChange={this.onChangequantity}
+                                                            onChange={this.onChangeQuantity}
                                                             required
                                                         />
                                                         <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.quantityError}</p>
-                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.quantitynotnullError}</p>
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.quantityNotNullError}</p>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
+                                                            Location                                                    </label>
+                                                        <input type="text"
+                                                            className="form-control"
+                                                            value={this.state.location}
+                                                            onChange={this.onChangeLocation}
+                                                            required
+                                                        />
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.locationError}</p>
                                                     </div>
                                                 </div>
                                                 <div className="text-center align-middle form-group">
-                                                    <input className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Add Inventory" />
+                                                    <input className='text-white bg-[#9B804E] hover:bg-[#867556] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Add Inventory" />
                                                 </div>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
-
-
-
         )
     }
 }
