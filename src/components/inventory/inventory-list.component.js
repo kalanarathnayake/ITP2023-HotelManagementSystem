@@ -113,7 +113,6 @@ export class InventoryList extends Component {
     }
 
     deleteInventory(id) {
-        
         axios.delete('http://localhost:5000/inventory/' + id).then(response => {
             console.log(response.status)
             // this.refreshTable();
@@ -127,7 +126,6 @@ export class InventoryList extends Component {
                     confirmButtonColor: '#0a5bf2',
                     iconColor: '#60e004'
                 })
-
                 this.refreshList();
             }
             
@@ -141,11 +139,7 @@ export class InventoryList extends Component {
                     iconColor: '#60e004'
                 })
             }
-
-            
         })
-        
-
 }
 
     inventoryList() {

@@ -2,60 +2,51 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import * as Swal from "sweetalert2";
 
-export class EditInventoryOrder extends Component {
+export default class EditInventoryOrder extends Component {
     constructor(props) {
         super(props);
-        this.onChangeproductID = this.onChangeproductID.bind(this);
-        this.onChangeproductName = this.onChangeproductName.bind(this);
-        this.onChangeproductCategory = this.onChangeproductCategory.bind(this);
-        this.onChangeavailablequantity = this.onChangeavailablequantity.bind(this);
-        this.onChangerequestedquantity = this.onChangerequestedquantity.bind(this);
-        this.onChangeStatus = this.onChangeStatus.bind(this);
+        this.onChangeOrderId = this.onChangeOrderId.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
+        this.onChangeSupplier = this.onChangeSupplier.bind(this);
+        this.onChangeItemType = this.onChangeItemType.bind(this);
+        this.onChangeRequestedQuantity = this.onChangeRequestedQuantity.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
             id: props.ioId,
-            productID: '',
-            productName: '',
-            productCategory: '',
-            availableQuantity: '',
-            requestedQuantity: '',
-            status: ''
+            orderId: '',
+            date: '',
+            supplier: '',
+            itemType: '',
+            requestedQuantity: ''
         }
     }
 
-    onChangeproductID(e) {
+    onChangeOrderId(e) {
         this.setState({
-            productID: e.target.value
+            orderId: e.target.value
         });
     }
 
-    onChangeproductName(e) {
+    onChangeDate(date) {
         this.setState({
-            productName: e.target.value
+            date: date
+        });
+    }
+    onChangeSupplier(e) {
+        this.setState({
+            supplier: e.target.value
         });
     }
 
-    onChangeproductCategory(e) {
+    onChangeItemType(e) {
         this.setState({
-            productCategory: e.target.value
+            itemType: e.target.value
         });
     }
 
-    onChangeavailablequantity(e) {
-        this.setState({
-            availableQuantity: e.target.value
-        });
-    }
-
-    onChangerequestedquantity(e) {
+    onChangeRequestedQuantity(e) {
         this.setState({
             requestedQuantity: e.target.value
-        });
-    }
-
-    onChangeStatus(e) {
-        this.setState({
-            status: e.target.value
         });
     }
 
@@ -63,12 +54,11 @@ export class EditInventoryOrder extends Component {
         axios.get('http://localhost:5000/inventoryOrders/' + this.state.id)
             .then(response => {
                 this.setState({
-                    productID: response.data.productID,
-                    productName: response.data.productName,
-                    productCategory: response.data.productCategory,
-                    availableQuantity: response.data.availableQuantity,
+                    orderId: response.data.orderId,
+                    date: response.data.date,
+                    supplier: response.data.supplier,
+                    itemType: response.data.itemType,
                     requestedQuantity: response.data.requestedQuantity,
-                    status: response.data.status,
                 })
             })
             .catch(function (error) {
@@ -78,35 +68,27 @@ export class EditInventoryOrder extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-
-        const inventoryorder = {
-            productID: this.state.productID,
-            productName: this.state.productName,
-            productCategory: this.state.productCategory,
-            availableQuantity: this.state.availableQuantity,
+        const inventoryOrder = {
+            orderId: this.state.orderId,
+            date: this.state.date,
+            supplier: this.state.supplier,
+            itemType: this.state.itemType,
             requestedQuantity: this.state.requestedQuantity,
-            status: this.state.status
         }
+        console.log(inventoryOrder);
 
-        console.log(inventoryorder);
-
-        if (this.state.productID.length < 3) {
-            this.setState({ proError: "Product Id cannot be shorter than 3 digits." })
-        }
-        else if (this.state.productName.length < 3) {
-            this.setState({ nameError: "Product Name cannot be shorter than 3 digits." })
-        }
-        else if (this.state.productCategory.length < 4) {
-            this.setState({ categoryError: "Product Category cannot be shorter than 4 digits." })
-        }
-        else if(this.state.availableQuantity == null){
-            this.setState({aquantityError : "Quantity can not be zero."})
+        if (!this.state.orderId) {
+            this.setState({ orderIdError: "order Id cannot be null" })
+        }else if (this.state.date.length < 4) {
+            this.setState({ dateError: "Please select the date" })
+        }else if (this.state.supplier.length < 5) {
+            this.setState({ supplierError: "Supplier Name cannot be shorter than 5 letters." })
+        }else if (this.state.itemType.length < 4) {
+            this.setState({ itemTypeError: "Product Category cannot be shorter than 4 digits." })
         }else if(this.state.requestedQuantity <= 0){
-            this.setState({rquantityError : "Quantity can not be zero 0 minus."})
+            this.setState({requestedQuantityError : "Quantity can not be zero 0 minus."})
         } else {
-            axios.put('http://localhost:5000/inventoryOrders/' + this.state.id, inventoryorder)
-
-
+            axios.put('http://localhost:5000/inventoryOrders/' + this.state.id, inventoryOrder)
                 .then(res => {
 
                     console.log(res);
@@ -116,7 +98,7 @@ export class EditInventoryOrder extends Component {
                         Swal.fire({
                             icon: 'success',
                             title: 'Successful',
-                            text: 'Inventory Order has been added!!',
+                            text: 'Inventory Order has been Updated!!',
                             background: '#fff',
                             confirmButtonColor: '#333533',
                             iconColor: '#60e004'
@@ -126,7 +108,7 @@ export class EditInventoryOrder extends Component {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Error in adding!',
+                            text: 'Error in updating!',
                             background: '#fff',
                             confirmButtonColor: '#333533',
                             iconColor: '#e00404'
@@ -138,12 +120,11 @@ export class EditInventoryOrder extends Component {
 
     clearData = () => {
         this.setState({
-            productID: '',
-            productName: '',
-            productCategory: '',
-            availableQuantity: '',
-            requestedQuantity: '',
-            status: ''
+            orderId: '',
+            date: '',
+            supplier: '',
+            itemType: '',
+            requestedQuantity: ''
         })
     }
 
@@ -157,100 +138,80 @@ export class EditInventoryOrder extends Component {
                                 <div className=''>
                                     <div class="grid grid-cols-1 gap-4 content-start pt-5 px-20">
                                         <form className='' onSubmit={this.onSubmit}>
+                                            <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>Edit Inventory Order</p>
                                             <div class="">
                                                 <div className="grid grid-cols-1 gap-4 form-group">
                                                     <div class="">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                            Product ID                                                        </label>
+                                                            Order ID</label>
                                                         <input
                                                             type="text"
                                                             required
                                                             disabled
                                                             className="form-control"
-                                                            value={this.state.productID}
-                                                            onChange={this.onChangeproductID}
-                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.proError}</p>
+                                                            value={this.state.orderId}
+                                                            onChange={this.onChangeOrderId}
+                                                        /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.orderIdError}</p>
                                                     </div>
                                                 </div>
-
-
                                                 <div className="form-group">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                        Product Name                                                        </label>
+                                                        Placed Date
+                                                    </label>
                                                     <input type="text"
                                                         required
                                                         disabled
                                                         className="form-control"
-                                                        value={this.state.productName}
-                                                        onChange={this.onChangeproductName}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.nameError}</p>
+                                                        value={this.state.date.substring(0, 10)}
+                                                        onChange={this.onChangeDate}
+                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.dateError}</p>
                                                 </div>
                                                 <div class="">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >
-                                                        Product Category                                                         </label>
+                                                        Product Supplier                                                       </label>
                                                     <input type="text"
                                                         required
-                                                        disabled
+                                                        // disabled
                                                         className="form-control"
-                                                        value={this.state.productCategory}
-                                                        onChange={this.onChangeproductCategory}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.categoryError}</p>
+                                                        value={this.state.supplier}
+                                                        onChange={this.onChangeSupplier}
+                                                    />
+                                                    <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.supplierError}</p>
                                                 </div>
-
-
                                                 <div className="form-group">
                                                     <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                        Available Quantity                                                    </label>
+                                                        Item Type                                                 </label>
                                                     <input type="text"
                                                         className="form-control"
-                                                        disabled
-                                                        value={this.state.availableQuantity}
-                                                        onChange={this.onChangeavailablequantity}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.aquantityError}</p>
+                                                        // disabled
+                                                        value={this.state.itemType}
+                                                        onChange={this.onChangeItemType}
+                                                    />
+                                                    <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.itemTypeError}</p>
                                                 </div>
-
                                                 <div className="form-group">
                                                     <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
                                                         Requested Quantity                                                    </label>
-                                                    <input type="number"
+                                                    <input 
+                                                        type="number"
                                                         className="form-control"
                                                         value={this.state.requestedQuantity}
-                                                        onChange={this.onChangerequestedquantity}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.rquantityError}</p>
+                                                        onChange={this.onChangeRequestedQuantity}
+                                                    />
+                                                    <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.requestedQuantityError}</p>
                                                 </div>
-
-                                                <div className="form-group">
-                                                    <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
-                                                        Status                                                   </label>
-                                                    <input type="text"
-                                                        className="form-control"
-                                                        disabled
-                                                        value={this.state.status}
-                                                        onChange={this.onChangeStatus}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.rquantityError}</p>
-                                                </div>
-
                                                 <div className="text-center align-middle form-group">
-                                                    <input className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Order Inventory" />
+                                                    <input className='text-white bg-[#9B804E] hover:bg-[#867556] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Order Inventory" />
                                                 </div>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
-
-
-
-
         )
     }
 }

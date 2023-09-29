@@ -5,12 +5,12 @@ import Swal from "sweetalert2";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Modal } from "react-bootstrap";
-import { EditInventoryOrder } from './inventoryOrder-edit.component';
+import  EditInventoryOrder  from './inventoryOrder-edit.component';
 
 const InventoryOrder = props => (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
 
-        {/* <td className='px-6 py-4'>{props.inventoryorder._id}</td> */}
+        <td className='px-6 py-4'>{props.inventoryorder._id}</td>
         <td className='px-6 py-4'>{props.inventoryorder.productID}</td>
         <td className='px-6 py-4'>{props.inventoryorder.productName}</td>
         <td className='px-6 py-4'>{props.inventoryorder.productCategory}</td>
@@ -83,6 +83,7 @@ export class InventoryOrderListKitchen extends Component {
                 console.log(error);
             })
     }
+
 
     gotoUpdateInventoryOrders = (id) => {
         this.setState({

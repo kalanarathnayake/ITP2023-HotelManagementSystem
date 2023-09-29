@@ -130,7 +130,8 @@ export class CreateInventory extends Component {
                                         <form className='px-12 py-6 border-2 rounded-lg shadow-md bg-gray-50' onSubmit={this.onSubmit}>
                                             <div class="">
                                                 <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>
-                                                    Add Inventory                                                </p>
+                                                    Add Inventory
+                                                    </p>
                                                 <div className="grid grid-cols-1 gap-4 form-group">
                                                     <div class="">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>

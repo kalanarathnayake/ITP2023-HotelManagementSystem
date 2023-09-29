@@ -149,8 +149,7 @@ export default class EditInventory extends Component {
                                     <div class="grid grid-cols-1 gap-4 content-start pt-5 px-20">
                                         <form className='' onSubmit={this.onSubmit}>
                                             <div class="">
-                                                <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>
-                                                    Edit Inventory                                                </p>
+                                                <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>Edit Inventory</p>
                                                 <div className="grid grid-cols-1 gap-4 form-group">
                                                     <div class="">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>

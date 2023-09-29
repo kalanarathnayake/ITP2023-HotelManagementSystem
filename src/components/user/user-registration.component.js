@@ -51,7 +51,7 @@ export class UserRegistration extends Component {
             this.setState({ nicError: "Please enter a valid NIC" })
         }
 
-        else if (this.state.password != this.state.cpassword) {
+        else if (this.state.password !== this.state.cpassword) {
 
             this.setState({ passwordError: "Passwords does not macth." })
         }

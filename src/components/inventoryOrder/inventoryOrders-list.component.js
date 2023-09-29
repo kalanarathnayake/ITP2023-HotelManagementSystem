@@ -5,22 +5,21 @@ import Swal from "sweetalert2";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Modal } from "react-bootstrap";
+import EditInventoryOrder from './inventoryOrder-edit.component';
+
 
 const InventoryOrder = props => (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-      
+
         <td className='px-6 py-4'>{props.inventoryorder.orderId}</td>
-        <td className='px-6 py-4'>{props.inventoryorder.productID}</td>
-        <td className='px-6 py-4'>{props.inventoryorder.productName}</td>
-        <td className='px-6 py-4'>{props.inventoryorder.productCategory}</td>
-        <td className='px-6 py-4'>{props.inventoryorder.availableQuantity}</td>
+        <td className='px-6 py-4'>{props.inventoryorder.date.substring(0, 10)}</td>
+        <td className='px-6 py-4'>{props.inventoryorder.supplier}</td>
+        <td className='px-6 py-4'>{props.inventoryorder.itemType}</td>
         <td className='px-6 py-4'>{props.inventoryorder.requestedQuantity}</td>
-        <td className='px-6 py-4'><span
-                                class="text-base inline-block whitespace-nowrap rounded-full bg-green-400 p-1 hover:bg-green-500 hover:drop-shadow-md hover:text-white  px-2 pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-primary-700">{props.inventoryorder.status}</span></td>
         <td className='px-6 py-4'>
             <div class="flex justify-center">
                 <div class="">
-                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-indigo-500 rounded-md hover:bg-blue-200'onClick={() => { props.approveInventoryOrder(props.inventoryorder._id) }}>
+                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#9B804E] rounded-md'onClick={() => { props.gotoUpdateInventoryOrders(props.inventoryorder._id) }}>
                         
                             <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
                                 <div class="">
@@ -29,14 +28,14 @@ const InventoryOrder = props => (
                                     </svg>
                                 </div>
                                 <div class="">
-                                    Approve
+                                    Update
                                 </div>
                             </div>
                         
                     </button>
                 </div>
                 <div class="">
-                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-red-500 rounded-md hover:bg-red-200' onClick={() => { props.declineInventoryOrder(props.inventoryorder._id) }}>
+                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#3B362E] rounded-md' onClick={() => { props.deleteInventoryOrder(props.inventoryorder._id) }}>
                         <div class="grid grid-cols-2 gap-1 hover:text-black">
                             <div class="">
                                 <svg class="h-5 w-5 mr-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,7 +43,7 @@ const InventoryOrder = props => (
                                 </svg>
                             </div>
                             <div>
-                                Decline
+                                Delete
                             </div>
                         </div>
                     </button>
@@ -55,12 +54,11 @@ const InventoryOrder = props => (
 )
 
 export class InventoryOrderList extends Component {
-
     constructor(props) {
         super(props);
         this.deleteInventoryOrder = this.deleteInventoryOrder.bind(this);
-        this.approveInventoryOrder = this.approveInventoryOrder.bind(this);
-        this.declineInventoryOrder = this.declineInventoryOrder.bind(this);
+        this.gotoUpdateInventoryOrders = this.gotoUpdateInventoryOrders.bind(this);
+
         this.state = {
             inventoryorder: [],
             searchInventoryOrder: ""
@@ -69,6 +67,39 @@ export class InventoryOrderList extends Component {
 
 
     componentDidMount() {
+        this.refreshList();
+    };
+
+    // approveInventoryOrder(id) {
+    //     const order = {
+    //         status: 'Approved'
+    //     }
+
+    //     axios.put('http://localhost:5000/inventoryOrders/status/' + id, order)
+    //         .then(res => console.log(res.data));
+    //     window.location = '/inventoryorder';
+    // }
+
+    // declineInventoryOrder(id) {
+    //     const order = {
+    //         status: 'Declined'
+    //     }
+
+    //     axios.put('http://localhost:5000/inventoryOrders/status/' + id, order)
+    //         .then(res => console.log(res.data));
+    //     window.location = '/inventoryorder';
+    // }
+
+    gotoUpdateInventoryOrders = (id) => {
+        this.setState({
+            id: id,
+            show: true
+
+        })
+        console.log("LIst id is :" + id);
+    }
+
+    refreshList() {
         axios.get('http://localhost:5000/inventoryOrders/')
             .then(response => {
                 this.setState({ inventoryorder: response.data })
@@ -78,62 +109,63 @@ export class InventoryOrderList extends Component {
             })
     }
 
-    approveInventoryOrder(id) {
-        const order = {
-            status: 'Approved'
-        }
-
-        axios.put('http://localhost:5000/inventoryOrders/status/' + id, order)
-            .then(res => console.log(res.data));
-        window.location = '/inventoryorder';
+    //Modal box
+    closeModalBox = () => {
+        this.setState({ show: false })
+        this.refreshList();
     }
 
-    declineInventoryOrder(id) {
-        const order = {
-            status: 'Declined'
-        }
-
-        axios.put('http://localhost:5000/inventoryOrders/status/' + id, order)
-            .then(res => console.log(res.data));
-        window.location = '/inventoryorder';
-    }
-
-    deleteInventoryOrder(id) {
+deleteInventoryOrder(id) {
         axios.delete('http://localhost:5000/inventoryOrders/' + id)
-            .then(res => console.log(res.data));
-        this.setState({
-            inventoryorder: this.state.inventoryorder.filter(el => el._id !== id)
-        })
+            .then(response => {
+                console.log(response.status)
+                // this.refreshTable();
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successful',
+                        text: "Inventory Order has been deleted!!",
+                        background: '#fff',
+                        confirmButtonColor: '#0a5bf2',
+                        iconColor: '#60e004'
+                    })
+                    this.refreshList();
+                }
+                else {
+                    Swal.fire({
+                        icon: 'Unsuccess',
+                        title: 'Unsuccessfull',
+                        text: "Inventory Order has not been deleted!!",
+                        background: '#fff',
+                        confirmButtonColor: '#eb220c',
+                        iconColor: '#60e004'
+                    })
+                }
+            })
     }
 
     inventoryorderList() {
         return this.state.inventoryorder.map(currentinventoryorder => {
-            return <InventoryOrder inventoryorder={currentinventoryorder} deleteInventoryOrder={this.deleteInventoryOrder} approveInventoryOrder={this.approveInventoryOrder} declineInventoryOrder={this.declineInventoryOrder} key={currentinventoryorder._id} />;
+            return <InventoryOrder inventoryorder={currentinventoryorder} deleteInventoryOrder={this.deleteInventoryOrder} gotoUpdateInventoryOrders={this.gotoUpdateInventoryOrders} key={currentinventoryorder._id} />;
         })
     }
 
     searchInventoryOrderList() {
-
         return this.state.inventoryorder.map((currentinventoryorder) => {
             if (
-                this.state.searchInventoryOrder ==
-                currentinventoryorder.productID
+                this.state.searchInventoryOrder === currentinventoryorder.orderId
             ) {
                 return (
                     <tr>
 
                         <td className='px-6 py-4'>{currentinventoryorder.orderId}</td>
-                        <td className='px-6 py-4'>{currentinventoryorder.productID}</td>
-                        <td className='px-6 py-4'>{currentinventoryorder.productName}</td>
-                        <td className='px-6 py-4'>{currentinventoryorder.productCategory}</td>
-                        <td className='px-6 py-4'>{currentinventoryorder.availableQuantity}</td>
+                        <td className='px-6 py-4'>{currentinventoryorder.date.substring(3, 13)}</td>
+                        <td className='px-6 py-4'>{currentinventoryorder.supplier}</td>
+                        <td className='px-6 py-4'>{currentinventoryorder.itemType}</td>
                         <td className='px-6 py-4'>{currentinventoryorder.requestedQuantity}</td>
-                        <td className='px-6 py-4'><span
-                                class="text-base inline-block whitespace-nowrap rounded-full bg-green-400 p-1 hover:bg-green-500 hover:drop-shadow-md hover:text-white  px-2 pt-[0.35em] pb-[0.25em] text-center align-baseline text-[0.75em] font-bold leading-none text-primary-700">{currentinventoryorder.status}</span></td>
-
                         <td className='px-6 py-4'>
                             {
-                                <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-indigo-500 rounded-md hover:bg-blue-200'onClick={() => { this.approveInventoryOrder(currentinventoryorder._id) }}>
+                                <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#9B804E] rounded-md 'onClick={() => { this.gotoUpdateInventoryOrders(currentinventoryorder._id) }}>
                                     <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
                                 <div class="">
                                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,7 +173,7 @@ export class InventoryOrderList extends Component {
                                     </svg>
                                 </div>
                                 <div class="">
-                                    Approve
+                                    Update
                                 </div>
                             </div>
                                 </button>
@@ -150,7 +182,7 @@ export class InventoryOrderList extends Component {
                             {
                                 
 
-                                <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-red-500 rounded-md hover:bg-red-200'onClick={() => { this.declineInventoryOrder(currentinventoryorder._id) }}>
+                                <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#3B362E] rounded-md'onClick={() => { this.deleteInventoryOrder(currentinventoryorder._id) }}>
                                 <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
                             <div class="">
                                 <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,7 +190,7 @@ export class InventoryOrderList extends Component {
                                 </svg>
                             </div>
                             <div class="">
-                                Decline
+                                Delete
                             </div>
                         </div>
                             </button>
@@ -171,44 +203,38 @@ export class InventoryOrderList extends Component {
         });
     }
 
-
     exportInventoryOrders = () => {
-        console.log( "Export PDF" )
-
-
+        console.log("Export PDF")
         const unit = "pt";
-        const size = "A3"; 
-        const orientation = "landscape"; 
+        const size = "A3";
+        const orientation = "landscape";
         const marginLeft = 40;
-        const doc = new jsPDF( orientation, unit, size );
+        const doc = new jsPDF(orientation, unit, size);
 
         const title = "Inventory Orders Report ";
-        const headers = [["Inventory ID","Product ID","Product Name","Product Category","Available Quantity","Requested Quantity","status"]];
+        const headers = [["Order ID", "Date", "Supplier Name", "Item Type", "Requested Quantity"]];
 
         const io = this.state.inventoryorder.map(
-            InventoryOrder=>[
-                InventoryOrder._id,
-                InventoryOrder.productID,
-                InventoryOrder.productName,
-                InventoryOrder.productCategory,
-                InventoryOrder.availableQuantity,
+            InventoryOrder => [
+                InventoryOrder.orderId,
+                InventoryOrder.date.substring(3, 13),
+                InventoryOrder.supplier,
+                InventoryOrder.itemType,
                 InventoryOrder.requestedQuantity,
-                InventoryOrder.status
             ]
         );
 
         let content = {
             startY: 50,
             head: headers,
-            body:io
+            body: io
         };
-        doc.setFontSize( 20 );
-        doc.text( title, marginLeft, 40 );
+        doc.setFontSize(20);
+        doc.text(title, marginLeft, 40);
         require('jspdf-autotable');
-        doc.autoTable( content );
-        doc.save( "InventoryOrders-list.pdf" )
+        doc.autoTable(content);
+        doc.save("InventoryOrders-list.pdf")
     }
-
 
     render() {
         return (
@@ -224,11 +250,13 @@ export class InventoryOrderList extends Component {
                                         </th>
                                         <td className='flex justify-end gap-2'>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end gap-2">
-                                                
-                                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportInventoryOrders()}>
+                                                <button class="text-white bg-[#867556] hover:bg-[#5d5038] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                    <Link className='font-semibold text-white no-underline' to={"/creatInventoryOrder"}>
+                                                        Place an Order
+                                                    </Link></button>
+                                                <button class="text-white bg-[#867556] hover:bg-[#5d5038] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportInventoryOrders()}>
                                                     
                                                         Download Report Here
-                                                   
                                                 </button>
                                             </div>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end">
@@ -253,12 +281,10 @@ export class InventoryOrderList extends Component {
                                     <thead className='p-5 text-xs text-gray-700 uppercase border bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                                         <tr>
                                         <th className="p-2 border-black tbhead ">Order ID</th>
-                                            <th className="p-2 border-black tbhead ">Product ID</th>
-                                            <th className="p-2 tbhead">Product Name</th>
-                                            <th className="p-2 tbhead">Product Category</th>
-                                            <th className="p-2 tbhead">Available Quantity</th>
+                                            <th className="p-2 border-black tbhead ">Date</th>
+                                            <th className="p-2 tbhead">Supplier Name</th>
+                                            <th className="p-2 tbhead">Item Type</th>
                                             <th className="p-2 tbhead">Requested Quantity</th>
-                                            <th className="p-2 tbhead">Status</th>
                                             <th className="p-2 text-center tbhead">Actions</th>
                                         </tr>
                                     </thead>
@@ -266,6 +292,22 @@ export class InventoryOrderList extends Component {
                                         {this.state.searchInventoryOrder == "" ? this.inventoryorderList() : this.searchInventoryOrderList()}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="">
+                                <Modal show={this.state.show} onHide={this.closeModalBox} centered size={"xl"}>
+                                    {/* <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
+                                        <div class="">
+                                            <Modal.Title className='items-center' >
+                                                <p className='font-semibold text-black uppercase '>
+                                                    Edit Inventory Order
+                                                </p>
+                                            </Modal.Title>
+                                        </div>
+                                    </Modal.Header > */}
+                                    <Modal.Body className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50'>
+                                        <EditInventoryOrder ioId={this.state.id} key={this.state.id} close={this.closeModalBox} />
+                                    </Modal.Body>
+                                </Modal>
                             </div>
                         </div>
                     </div>
