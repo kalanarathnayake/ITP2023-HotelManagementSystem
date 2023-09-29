@@ -119,8 +119,8 @@ export class UserLogin extends Component {
                         window.location = "/product"
                     } else if (isUserLoggedIn === true && currentuser.role == "Delivery Manager") {
                         window.location = "/delivery"
-                    } else if (isUserLoggedIn === true && currentuser.role == "Finance Manager") {
-                        window.location = "/salary"
+                    } else if (isUserLoggedIn === true && currentuser.role == "employee") {
+                        window.location = "/empLeave"
                     } else if (isUserLoggedIn === true && currentuser.role == "customer") { //done
                         window.location = "/customerProfile"
 

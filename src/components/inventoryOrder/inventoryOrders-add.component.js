@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"
-import TimePicker from 'react-time-picker';
 import * as Swal from "sweetalert2";
 const shortid = require('shortid');
 

@@ -37,10 +37,9 @@ class home extends Component {
         {/* {isUserLoggedIn && */}
           <div class="">
             <section class="">
-              <div class="text-center bg-white text-gray-800 py-20 px-6">
-                <h1 class="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight uppercase mb-8 drop-shadow-md ">delicious and freshly<br />
-                  <span class="text-orange-600 ">baked </span>
-                  <span class="text-orange-500 animate-pulse "> PizzaMania </span>
+              <div class="text-center bg-white text-gray-800 pb-20 px-6">
+                <h1 class="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight uppercase mb-8 drop-shadow-md "><br />
+                  <span class="text-orange-500 animate-pulse "> River's Edge </span>
                 </h1>
               </div>
             </section>
@@ -51,7 +50,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8zJX9p57ngDAHaUwD8Hs_1PXoRe3k0KVsmQ&usqp=CAU"
+                      src="https://www.jetwinghotels.com/wp-content/uploads/2017/09/hotels-in-sigiriya-sri-lanka-categorythumbnail.jpg"
                     />
                   </div>
                 </div>
@@ -60,7 +59,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://img.freepik.com/free-photo/mixed-pizza-with-various-ingridients_140725-3790.jpg?w=2000"
+                      src="https://www.telegraph.co.uk/content/dam/Travel/hotels/asia/sri-lanka/camellia-hills-sri-lanka-p.jpg"
                     />
                   </div>
                 </div>
@@ -69,7 +68,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://www.kingarthurbaking.com/sites/default/files/2022-03/Easiest-Pizza_22-2_11.jpg" />
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPI6mKAVOlcNW55S1gphOPdt9F78d6eKozug&usqp=CAU" />
                   </div>
                 </div>
                 <div class="flex w-1/3 flex-wrap">
@@ -77,7 +76,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-4Lb7iNiT2WSAqvGHO3NowsQGRCrMVcGEUQ&usqp=CAU"
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3LJwuD0D7R4JbjL0YBXLkFGjkmv55N0gmjg&usqp=CAU"
                     />
                   </div>
                 </div>
@@ -86,7 +85,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://static.toiimg.com/thumb/msid-87930581,imgsize-211826,width-800,height-600,resizemode-75/87930581.jpg" />
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc515dTAZ4-qdFFqJUjWk2JC07zIWL5HQ6-g&usqp=CAU" />
                   </div>
                 </div>
                 <div class="flex w-1/3 flex-wrap">
@@ -94,7 +93,7 @@ class home extends Component {
                     <img
                       alt="gallery"
                       class="block h-full w-full rounded-lg object-cover object-center"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTITXxQQ4cSLkQUGaG-qaxSq1ioDHTtwFYmWA&usqp=CAU" />
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq3pA_iWFfuHFStA4CwW7mViU0SwzEz1zI0Q&usqp=CAU" />
                   </div>
                 </div>
               </div>

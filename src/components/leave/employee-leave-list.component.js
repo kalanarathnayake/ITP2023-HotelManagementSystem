@@ -7,12 +7,13 @@ import 'jspdf-autotable';
 import { Modal } from "react-bootstrap";
 import AuthenticationService from "../user/AuthenticationService";
 import EditFeedback from '../feedback/feedback-edit.component';
+import EditLeave from './leave-edit.component';
 
-const CustomerFeedback = props => (
+const EmpLeave = props => (
     <div class=""></div>
 )
 
-export class CustomerFeed extends Component {
+export class EmpLeaveList extends Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +30,7 @@ export class CustomerFeed extends Component {
     }
 
     refreshList(){
-        axios.get('http://localhost:5000/customerFeedback/')
+        axios.get('http://localhost:5000/leave/')
         .then(response => {
             this.setState({ customer: response.data })
         })
@@ -64,7 +65,7 @@ export class CustomerFeed extends Component {
     }
 
     deleteCustomer(id) {
-        axios.delete('http://localhost:5000/customerFeedback/' + id).then(response => {
+        axios.delete('http://localhost:5000/leave/' + id).then(response => {
             console.log(response.status)
             // this.refreshTable();
 
@@ -96,24 +97,30 @@ export class CustomerFeed extends Component {
 
     customerList() {
         return this.state.customer.map(currentCustomerFeedback => {
-            return <CustomerFeedback customer={currentCustomerFeedback} deleteCustomer={this.deleteCustomer} gotoUpdateCustomer={this.gotoUpdateCustomer} key={currentCustomerFeedback._id} />;
+            return <EmpLeave customer={currentCustomerFeedback} deleteCustomer={this.deleteCustomer} gotoUpdateCustomer={this.gotoUpdateCustomer} key={currentCustomerFeedback._id} />;
         })
     }
 
-    searchCustomerFeedbackList() {
+    searchEmployeeLeave() {
         return this.state.customer.map((currentCustomerFeedback) => {
             if (
                 this.state.searchCustomer === currentCustomerFeedback.firstName
             ) {
                 return (
                     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                        <div class="block rounded-lg bg-[#D9D9D9] p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 mb-3">
+                        <div class="block rounded-lg bg-[#f6f6f6] p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 mb-3">
                             <h5
                                 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-                                {"Mr."+currentCustomerFeedback.firstName}
+                                {"Leave On , "+currentCustomerFeedback.fromD.substring(0, 10)+ " To "+ currentCustomerFeedback.toD.substring(0, 10)}
                             </h5>
+                            <p class="text-lg text-neutral-950 dark:text-neutral-200">
+                                {"Reason "+ currentCustomerFeedback.reason}
+                            </p>
                             <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-                                {currentCustomerFeedback.description}
+                                {"Total Days : "+ currentCustomerFeedback.nod}
+                            </p>
+                            <p class=" text-xl font-extrabold text-center text-neutral-600 dark:text-neutral-200">
+                                {"Leave Request Status : "+ currentCustomerFeedback.status}
                             </p>
                             <div class="flex justify-center px-6 py-4 ">
                                 <div class="">
@@ -162,13 +169,13 @@ export class CustomerFeed extends Component {
                                 <table >
                                     <tr>
                                         <th className='drop-shadow-md'>
-                                            <h3>Your FeedBacks</h3>
+                                            <h3>My Leave Requests</h3>
                                         </th>
                                         <td className='flex justify-end gap-2'>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end gap-2">
                                                 <button class="text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                                    <Link className='font-semibold text-white no-underline' to={"/creatFeedback"}>
-                                                        Add FeedBack
+                                                    <Link className='font-semibold text-white no-underline' to={"/createLeave"}>
+                                                        Request a Leave
                                                     </Link>
                                                 </button>
                                             </div>
@@ -179,7 +186,7 @@ export class CustomerFeed extends Component {
                             <div className='relative grid content-start grid-cols-1 gap-4 overflow-x-auto shadow-md sm:rounded-lg'>
                                 <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400' >
                                     <tbody>
-                                        {this.state.searchCustomer == "" ? this.customerList() : this.searchCustomerFeedbackList()}
+                                        {this.state.searchCustomer == "" ? this.customerList() : this.searchEmployeeLeave()}
                                     </tbody>
                                 </table>
                             </div>
@@ -195,7 +202,7 @@ export class CustomerFeed extends Component {
                                         </div>
                                     </Modal.Header > */}
                                     <Modal.Body className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50'>
-                                        <EditFeedback fedId={this.state.id} key={this.state.id} close={this.closeModalBox} />
+                                        <EditLeave leaveId={this.state.id} key={this.state.id} close={this.closeModalBox} />
                                     </Modal.Body>
                                 </Modal>
                             </div>

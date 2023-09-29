@@ -15,10 +15,7 @@ class navbar extends Component {
         this.refreshList();
     }
 
-
-
   render() {
-
       const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
     const loggedUserRole = AuthenticationService.loggedUserRole();
     const loggedUserId = AuthenticationService.loggedUserId();
@@ -28,17 +25,12 @@ class navbar extends Component {
     let loggedAsEManager = false; //employeemanager
     let loggedAsCManager = false; //customermanager
     let loggedAsIManager = false; //inventorymanager
-    let loggedAsWStaff = false;
-    let loggedAsHChef = false;
-    let loggedAsDManager = false;
-    let loggedAsPManager = false;
-    let loggedAsFManager = false;
     let loggedAsAdmin = false;
     let unknownUser = false;
     let loggedAsCustomer = false;
     let loggedAsEmployee = false;
 
-    if (isUserLoggedIn == true) {
+    if (isUserLoggedIn === true) {
       console.log("User Logged In")
     } else {
       unknownUser = true;
@@ -56,21 +48,9 @@ class navbar extends Component {
     }
     if (loggedUserRole != null && loggedUserRole === 'inventorymanager') { 
       loggedAsIManager = true;
-    } if (loggedUserRole != null && loggedUserRole === 'Waiter Staff') {
-      loggedAsWStaff = true;
-    }
-    if (loggedUserRole != null && loggedUserRole === 'Head Chef') {
-      loggedAsHChef = true;
-    }
-    if (loggedUserRole != null && loggedUserRole === 'Delivery Manager') {
-      loggedAsDManager = true;
-    }
-    if (loggedUserRole != null && loggedUserRole === 'Product Manager') {
-      loggedAsPManager = true;
-    } if (loggedUserRole != null && loggedUserRole === 'superadmin') {
+    } 
+    if (loggedUserRole != null && loggedUserRole === 'superadmin') {
       loggedAsAdmin = true;
-    } if (loggedUserRole != null && loggedUserRole === 'Finance Manager') {
-      loggedAsFManager = true;
     }
 
     return (
@@ -86,10 +66,10 @@ class navbar extends Component {
                 </div>
                 <div className="grid grid-cols-2 gap-1">
                   <div class="flex flex-col sm:flex-row sm:text-left sm:justify-between">
-                    <button class="flex  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800">  <a className="text-white no-underline text-md from-neutral-50" href="/creatCustomer">Sign Up</a></button>
+                    <button class="flex  bg-[#645232] hover:bg-[#907543] focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800">  <a className="text-white no-underline text-md from-neutral-50" href="/creatCustomer">Sign Up</a></button>
                   </div>
                   <div class="flex flex-col sm:flex-row sm:text-left sm:justify-between">
-                    <button class="flex text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800"><a className="text-white no-underline text-md" href="/signIn">Sign In</a></button>
+                    <button class="flex text-white bg-[#9B804E] hover:bg-[#c9ac75] focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800"><a className="text-white no-underline text-md" href="/signIn">Sign In</a></button>
                   </div>
                 </div>
               </>
@@ -134,80 +114,26 @@ class navbar extends Component {
                   {loggedAsEmployee &&
                     <>
                       <div>
-                        <a href="/order" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Orders</a>
-
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
+                        <a href="/empLeave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Leave Dash</a>
                       </div>
                     </>
                   }
-
-                  {loggedAsHChef &&
-                    <>
-                      <div>
-                        <a href="/kitchenOrder" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Kitchen Orders</a>
-                        <a href="/inventorylistfororder" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Order Inventory</a>
-
-                        <a href="/iokitchen" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Inventory Order</a>
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-
-                      </div>
-                    </>
-                  }
-
-                  {loggedAsPManager &&
-                    <div>
-                      <a href="/product" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Product</a>
-                      <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                      <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-                    </div>
-                  }
-
-                  {loggedAsDManager &&
-                    <>
-                      <div>
-                        <a href="/delivery" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">All Deliveries</a>
-                        <a href="/readyDelivery" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Ready Delivery</a>
-                        <a href="/completedDelivery" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Completed Delivery</a>
-                        <a href="/ongoingDelivery" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Ongoing Delivery</a>
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-
-                      </div>
-                    </>
-                  }
-
-                  {loggedAsFManager &&
-                    <>
-                      <div>
-                        <a href="/salary" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Salary</a>
-                        <a href="/ot" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Over Time</a>
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-                        {/* <a href="/wages" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Wages</a> */}
-                      </div>
-                    </>
-                  }{
+{
                     loggedAsAdmin &&
                     <>
                       <a href="/employee" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Employees</a>
                       <a href="/customer" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Customer</a>
                       <a href="/feedback" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Feedback</a>
-                      <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
                       <a href="/inventory" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Inventory</a>
                       <a href="/inventoryorder" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Inventory Order</a>
-                      <a href="/order" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Orders</a>
-                      <a href="/product" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Product</a>
-                      <a href="/delivery" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Delivery</a>
-                      <a href="/salary" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Salary</a>
-                      <a href="/ot" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Over Time</a>
+                      <a href="/leave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Leave</a>
+                      <a href="/empLeave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">emp Leave</a>
                     </>
                   }
 
                 </div>
                 <div class="flex flex-col sm:flex-row sm:text-left sm:justify-between">
-                  <button class="flex text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800" onClick={this.logout}> Logout</button>
+                  <button class="flex text-white bg-[#9B804E] hover:bg-[#d7b26e] focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800" onClick={this.logout}> Logout</button>
                 </div>
               </>
             }

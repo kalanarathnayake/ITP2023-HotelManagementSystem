@@ -6,8 +6,6 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Modal } from "react-bootstrap";
 import EditInventoryOrder from './inventoryOrder-edit.component';
-
-
 const InventoryOrder = props => (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
 
@@ -20,7 +18,6 @@ const InventoryOrder = props => (
             <div class="flex justify-center">
                 <div class="">
                     <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#9B804E] rounded-md'onClick={() => { props.gotoUpdateInventoryOrders(props.inventoryorder._id) }}>
-                        
                             <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
                                 <div class="">
                                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
