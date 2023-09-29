@@ -1,6 +1,6 @@
 import { Component } from "react";
-
 import AuthenticationService from "../user/AuthenticationService";
+import { Modal } from "react-bootstrap";
 
 class navbar extends Component {
   logout = () => {
@@ -8,6 +8,15 @@ class navbar extends Component {
 
     window.location = "/"
   }
+
+    //Modal box
+    closeModalBox = () => {
+        this.setState({ show: false })
+        this.refreshList();
+    }
+
+
+
   render() {
 
       const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
@@ -16,9 +25,9 @@ class navbar extends Component {
 
     console.log("User Id is" + loggedUserId);
     // const loggedUser = AuthenticationService.loggedUserName();
-    let loggedAsEManager = false;
-    let loggedAsCManager = false;
-    let loggedAsIManager = false;
+    let loggedAsEManager = false; //employeemanager
+    let loggedAsCManager = false; //customermanager
+    let loggedAsIManager = false; //inventorymanager
     let loggedAsWStaff = false;
     let loggedAsHChef = false;
     let loggedAsDManager = false;
@@ -26,19 +35,26 @@ class navbar extends Component {
     let loggedAsFManager = false;
     let loggedAsAdmin = false;
     let unknownUser = false;
+    let loggedAsCustomer = false;
+    let loggedAsEmployee = false;
 
     if (isUserLoggedIn == true) {
       console.log("User Logged In")
     } else {
       unknownUser = true;
     }
-    if (loggedUserRole != null && loggedUserRole === 'Employee Manager') {
+    if (loggedUserRole != null && loggedUserRole === 'employeemanager') {
       loggedAsEManager = true;
     }
-    if (loggedUserRole != null && loggedUserRole === 'Customer Manager') {
-      loggedAsCManager = true;
+    if (loggedUserRole != null && loggedUserRole === 'employee') {
+      loggedAsEmployee = true;
     }
-    if (loggedUserRole != null && loggedUserRole === 'Inventory Manager') {
+    if (loggedUserRole != null && loggedUserRole === 'customermanager') {
+      loggedAsCManager = true;
+    }if (loggedUserRole != null && loggedUserRole === 'customer') {
+      loggedAsCustomer = true;
+    }
+    if (loggedUserRole != null && loggedUserRole === 'inventorymanager') { 
       loggedAsIManager = true;
     } if (loggedUserRole != null && loggedUserRole === 'Waiter Staff') {
       loggedAsWStaff = true;
@@ -51,7 +67,7 @@ class navbar extends Component {
     }
     if (loggedUserRole != null && loggedUserRole === 'Product Manager') {
       loggedAsPManager = true;
-    } if (loggedUserRole != null && loggedUserRole === 'Super Admin') {
+    } if (loggedUserRole != null && loggedUserRole === 'superadmin') {
       loggedAsAdmin = true;
     } if (loggedUserRole != null && loggedUserRole === 'Finance Manager') {
       loggedAsFManager = true;
@@ -70,7 +86,7 @@ class navbar extends Component {
                 </div>
                 <div className="grid grid-cols-2 gap-1">
                   <div class="flex flex-col sm:flex-row sm:text-left sm:justify-between">
-                    <button class="flex  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800">  <a className="text-white no-underline text-md from-neutral-50" href="/signUp">Sign Up</a></button>
+                    <button class="flex  bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800">  <a className="text-white no-underline text-md from-neutral-50" href="/creatCustomer">Sign Up</a></button>
                   </div>
                   <div class="flex flex-col sm:flex-row sm:text-left sm:justify-between">
                     <button class="flex text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg px-5 py-2.5 mr-2 mb-2 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800"><a className="text-white no-underline text-md" href="/signIn">Sign In</a></button>
@@ -87,36 +103,35 @@ class navbar extends Component {
                   {loggedAsEManager &&
                     <>
                       <div>
-                        <a href="/employee" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Employees</a>
-                        <a href="/feedback" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Feedback</a>
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-                        <a href="/creatSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Add Schedule</a>
-                        <a href="/scheduleRequestLsit" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedule Requests</a>
+                        <a href="/employee" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Employee Management</a>
+                        <a href="/leave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Leave Management</a>
                       </div>
                     </>
                   }
 
-                  {loggedAsCManager &&
+                  {loggedAsCManager && //done
                     <div>
                       <a href="/customer" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Customer</a>
-                      <a href="/creatFeedback" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Add Feedback</a>
+                      <a href="/feedback" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Feedback</a>
                     </div>
                   }
-
-                  {loggedAsIManager &&
+                  {loggedAsCustomer && //done
+                    <div>
+                      <a href="/customerProfile" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Profile</a>
+                      <a href="/customerFeedback" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">FeedBacks</a>
+                    </div>
+                  }
+                  {loggedAsIManager && 
                     <>
                       <div>
                         <a href="/inventory" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Inventory</a>
                         <a href="/inventoryorder" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Inventory Order</a>
-                        <a href="/schedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Schedule</a>
-                        <a href="/allSchedule" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Schedules</a>
-
+                        <a href="/inventoryDash" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Dash Board</a>
                       </div>
                     </>
                   }
 
-                  {loggedAsWStaff &&
+                  {loggedAsEmployee &&
                     <>
                       <div>
                         <a href="/order" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Orders</a>

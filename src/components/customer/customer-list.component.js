@@ -9,30 +9,26 @@ import  EditCustomer  from './customer-edit.component';
 
 const Customer = props => (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-        <td className='px-6 py-4'>{props.customer.fullName}</td>
+        <td className='px-6 py-4'>{props.customer.firstName+" "+props.customer.lastName}</td>
+        <td className='px-6 py-4'>{props.customer.phone1+"|"+props.customer.phone2}</td>
+        <td className='px-6 py-4'>{props.customer.address+","+props.customer.country}</td>
         <td className='px-6 py-4'>{props.customer.email}</td>
-        <td className='px-6 py-4'>{props.customer.contactNo}</td>
-        <td className='px-6 py-4'>{props.customer.address}</td>
         <td className='px-6 py-4'>
             <div class="flex justify-center">
                 <div class="">
-                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-indigo-500 rounded-md hover:bg-blue-200' onClick={() => { props.gotoUpdateCustomer(props.customer._id) }}>
-                       
-                            <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
-                                <div class="">
-                                    <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#9B804E] rounded-md hover:bg-[#75613b]' onClick={() => { props.gotoUpdateCustomer(props.customer._id) }}>
+                        <div class="">
+                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round " stroke-width="2" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"></path>
                                     </svg>
-                                </div>
-                                <div class="">
-                                    Edit
-                                </div>
-                            </div>
-                       
+                        </div>
+                        <div class="">
+                            Edit
+                        </div>
                     </button>
                 </div>
                 <div class="">
-                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-red-500 rounded-md hover:bg-red-200' onClick={() => { props.deleteCustomer(props.customer._id) }}>
+                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#3B362E] rounded-md hover:bg-[#746a5a]' onClick={() => { props.deleteCustomer(props.customer._id) }}>
                         <div class="">
                             <svg class="h-5 w-5 mr-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -75,7 +71,7 @@ export class CustomerList extends Component {
 
 
     componentDidMount() {
-       this.refreshList();
+        this.refreshList();
     }
 
     gotoUpdateCustomer = (id) => {
@@ -113,7 +109,7 @@ export class CustomerList extends Component {
             else {
                 Swal.fire({
                     icon: 'Unsuccess',
-                    title: 'Unsuccessfull',
+                    title: 'Unsuccessful',
                     text: "Customer has not been deleted!!",
                     background: '#fff',
                     confirmButtonColor: '#eb220c',
@@ -135,21 +131,21 @@ export class CustomerList extends Component {
 
         return this.state.customer.map((currentcustomer) => {
             if (
-                this.state.searchCustomer ==
-                currentcustomer.fullName
+                this.state.searchCustomer === currentcustomer.firstName
             ) {
                 return (
                     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                        <td className='px-6 py-4'>{currentcustomer.fullName}</td>
+                        <td className='px-6 py-4'>{currentcustomer.firstName+" "+currentcustomer.lastName}</td>
+                        <td className='px-6 py-4'>{currentcustomer.phone1 +"|"+ currentcustomer.phone2}</td>
+                        <td className='px-6 py-4'>{currentcustomer.address+","+currentcustomer.country}</td>
                         <td className='px-6 py-4'>{currentcustomer.email}</td>
-                        <td className='px-6 py-4'>{currentcustomer.contactNo}</td>
-                        <td className='px-6 py-4'>{currentcustomer.address}</td>
-                      
+                        {/* <td className='px-6 py-4'>{currentcustomer.country}</td> */}
+                        {/* <td className='px-6 py-4'>{currentcustomer.pass}</td>
+                        <td className='px-6 py-4'>{currentcustomer.cPass}</td> */}
                         <td className='flex justify-center px-6 py-4 '>
                             {
                                 <div class="">
-                                    <button className='inline-flex items-center px-4 py-2 mr-1 text-sm font-medium text-white bg-indigo-500 rounded-md hover:bg-blue-200' onClick={() => { this.gotoUpdateCustomer(currentcustomer._id) }}>
-                                       
+                                    <button className='inline-flex items-center px-4 py-2 mr-1 text-sm font-medium text-white bg-[#9B804E] rounded-md hover:bg-[#75613b]' onClick={() => { this.gotoUpdateCustomer(currentcustomer._id) }}>
                                             <div class=" grid grid-cols-2 gap-1">
                                                 <div class="">
                                                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -160,16 +156,14 @@ export class CustomerList extends Component {
                                                     Edit
                                                 </div>
                                             </div>
-                                      
                                     </button>
                                 </div>
                             }
                             {"  "}
                             {
                                 <div class="">
-                                    <button className='inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-200'
+                                    <button className='inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#3B362E] rounded-md hover:bg-[#746a5a]'
                                         onClick={() => {
-                                           
                                                 this.deleteCustomer(currentcustomer._id)
                                         }}>
                                         <div class=" grid grid-cols-2 gap-1">
@@ -204,14 +198,16 @@ export class CustomerList extends Component {
         const doc = new jsPDF( orientation, unit, size );
 
         const title = "Customer List Report ";
-        const headers = [["Full Name","Email","Contact Number","Address"]];
-
+        const headers = [["First Name","Last Name","Contact:1","Contact:1","Address","Email","Country"]];
         const cus = this.state.customer.map(
             Customer=>[
-                Customer.fullName,
+                Customer.firstName,
+                Customer.lastName,
+                Customer.phone1,
+                Customer.phone2,
+                Customer.address,
                 Customer.email,
-                Customer.contactNo,
-                Customer.address
+                Customer.country
             ]
         );
 
@@ -242,14 +238,12 @@ export class CustomerList extends Component {
                                         </th>
                                         <td className='flex justify-end gap-2'>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end gap-2">
-                                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                <button class="text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                                     <Link className='font-semibold text-white no-underline' to={"/creatCustomer"}>
                                                         Add Customer
                                                     </Link></button>
-                                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportCustomer()}>
-                                                  
-                                                        Download Report Here
-                                                   
+                                                <button class="text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportCustomer()}>
+                                                        Generate Report
                                                 </button>
                                             </div>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end">
@@ -273,9 +267,9 @@ export class CustomerList extends Component {
                                     <thead className='p-5 text-xs text-gray-700 uppercase border bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                                         <tr>
                                             <th className="p-2 border-black tbhead ">Customer Name</th>
+                                            <th className="p-2 tbhead">Phone Numbers</th>
+                                            <th className="p-2 tbhead">Address,Country</th>
                                             <th className="p-2 tbhead">Email</th>
-                                            <th className="p-2 tbhead">Contact Number</th>
-                                            <th className="p-2 tbhead">Address</th>
                                             <th className="p-2 text-center tbhead">Actions</th>
                                         </tr>
                                     </thead>
@@ -286,7 +280,7 @@ export class CustomerList extends Component {
                             </div>
                             <div class="">
                                 <Modal show={this.state.show} onHide={this.closeModalBox} centered size={"xl"}>
-                                    <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
+                                    {/* <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
                                         <div class="">
                                             <Modal.Title className='items-center' >
                                                 <p className='font-semibold text-black uppercase '>
@@ -294,7 +288,7 @@ export class CustomerList extends Component {
                                                 </p>
                                             </Modal.Title>
                                         </div>
-                                    </Modal.Header >
+                                    </Modal.Header > */}
                                     <Modal.Body className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50'>
                                         <EditCustomer cusId={this.state.id} key={this.state.id} close={this.closeModalBox} />
                                     </Modal.Body>

@@ -9,6 +9,7 @@ import { EmployeeList } from "./components/employee/employee-list.component";
 import { CreateEmployee } from './components/employee/employee-add.component';
 import EditEmployee from "./components/employee/employee-edit.component";
 import { CustomerList } from './components/customer/customer-list.component'
+import { CustomerPro } from './components/customer/customer-profile.component'
 import { CreateCustomer } from './components/customer/customer-add.component'
 import EditCustomer from './components/customer/customer-edit.component'
 import { OrderList } from './components/order/order-list.component'
@@ -54,30 +55,13 @@ import { UserLogin } from './components/user/user-login.component';
 import { MonthlyWages } from './components/salary/monthly-wages.component';
 
 import Home from "./components/navbar/home";
+import { CustomerFeed } from './components/customer/customer.feedback.component';
 initTE({ Carousel }, true); // set second parameter to true if you want to use a debugger
 function App() {
   return (
-    // <div className="App">
-    // <Router>
-
-
-
-    // <EmployeeList/>
-    // <div>
-    // <Routes>
-
-    // <Route path = "/" exact component = {EmployeeList}/>
-    // <Route exact path = "/creatEmployee" component = {<CreateEmployee/>}/>
-    // <Route exact path = "/editEmployee/:id" component = {EditEmployee}/>
-    // </Routes>
-    // </div>
-    // </Router>
-    // </div>
     <div>
       <Navbar />
-      {/* <Home/> */}
       <Router>
-        {/* <EmployeeList/> */}
         <Routes>
 
           <Route exact path="/nav" element={Navbar} />
@@ -88,6 +72,8 @@ function App() {
           <Route exact path="/editEmployee/:id" element={EditEmployee} />{/* Done */}
 
           <Route exact path="/customer" element={<CustomerList />} /> {/* Done */}
+          <Route exact path="/customerProfile" element={<CustomerPro />} /> {/* Done */}
+          <Route exact path="/customerFeedback" element={<CustomerFeed />} /> {/* Done */}
           <Route exact path="/creatcustomer" element={<CreateCustomer />} /> {/* Done */}
           <Route exact path="/editCustomer/:id" element={EditCustomer} />
 

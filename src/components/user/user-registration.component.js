@@ -46,7 +46,7 @@ export class UserRegistration extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        if (this.state.NIC.length < 10 || this.state.NIC.length > 12) {
+        if (!this.state.NIC) {
 
             this.setState({ nicError: "Please enter a valid NIC" })
         }

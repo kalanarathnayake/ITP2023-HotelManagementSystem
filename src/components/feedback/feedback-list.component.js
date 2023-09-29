@@ -4,17 +4,17 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { Modal } from "react-bootstrap";
-import EditFeedback from './feedback-edit.component';
+// import { Modal } from "react-bootstrap";
+// import EditFeedback from './feedback-edit.component';
 
 const Feedback = props => (
     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-        <td className='px-6 py-4'>{props.feedback.feedback}</td>
-        <td className='px-6 py-4'>{props.feedback.userContact}</td>
-        <td className='px-6 py-4'>{props.feedback.empID}</td>
+        <td className='px-6 py-4'>{props.feedback.firstName}</td>
+        <td className='max-w-md px-6 py-4 '>{props.feedback.description}</td>
+        {/* <td className='px-6 py-4'>{props.feedback.empID}</td> */}
         <td className='px-6 py-4'>
             <div class="flex justify-center">
-                <div class="">
+                {/* <div class="">
                     <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-indigo-500 rounded-md hover:bg-blue-200'onClick={() => { props.gotoUpdateFeedback(props.feedback._id) }}>
                        
                             <div class=" grid grid-cols-2 gap-1 hover:text-black duration-100">
@@ -29,9 +29,9 @@ const Feedback = props => (
                             </div>
                        
                     </button>
-                </div>
+                </div> */}
                 <div class="">
-                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-red-500 rounded-md hover:bg-red-200' onClick={() => { props.deleteFeedback(props.feedback._id) }}>
+                    <button className='inline-flex items-center px-4 py-2 ml-1 text-sm font-medium text-white duration-100 bg-[#867556] hover:bg-[#6f6148] rounded-md' onClick={() => { props.deleteFeedback(props.feedback._id) }}>
                         <div class="grid grid-cols-2 gap-1 hover:text-black">
                             <div class="">
                                 <svg class="h-5 w-5 mr-2 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,7 +55,7 @@ export class FeedbackList extends Component {
         super(props);
 
         this.deleteFeedback = this.deleteFeedback.bind(this);
-        this.gotoUpdateFeedback = this.gotoUpdateFeedback.bind(this);
+        // this.gotoUpdateFeedback = this.gotoUpdateFeedback.bind(this);
 
         this.state = {
             feedback: [], user: [],
@@ -70,7 +70,7 @@ export class FeedbackList extends Component {
     }
 
     refreshList(){
-        axios.get('http://localhost:5000/feedback/')
+        axios.get('http://localhost:5000/customerFeedback/')
             .then(response => {
                 this.setState({ feedback: response.data })
             })
@@ -79,14 +79,14 @@ export class FeedbackList extends Component {
             })
     }
 
-    gotoUpdateFeedback = (id) => {
-        this.setState({
-            id: id,
-            show: true
+    // gotoUpdateFeedback = (id) => {
+    //     this.setState({
+    //         id: id,
+    //         show: true
 
-        })
-        console.log("LIst id is :" +id);
-    }
+    //     })
+    //     console.log("LIst id is :" +id);
+    // }
 
     //Modal box
     closeModalBox = () => {
@@ -96,7 +96,7 @@ export class FeedbackList extends Component {
 
     deleteFeedback(id) {
         
-        axios.delete('http://localhost:5000/feedback/' + id).then(response => {
+        axios.delete('http://localhost:5000/customerFeedback/' + id).then(response => {
             console.log(response.status)
             // this.refreshTable();
 
@@ -142,31 +142,17 @@ export class FeedbackList extends Component {
 
         return this.state.feedback.map((currentfeedback) => {
             if (
-                this.state.searchFeedback ==
-                currentfeedback.userContact
+                this.state.searchFeedback ===currentfeedback.firstName
             ) {
                 return (
                     <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
 
-                        <td className='px-6 py-4'>{currentfeedback.feedback}</td>
-                        <td className='px-6 py-4'>{currentfeedback.userContact}</td>
-                        <td className='px-6 py-4'>{currentfeedback.empID}</td>
-
-
-
+                        <td className='px-6 py-4'>{currentfeedback.firstName}</td>
+                        <td className='max-w-md px-6 py-4'>{currentfeedback.description}</td>
                         <td className='flex justify-center px-6 py-4 '>
-                            {
-                                <div class="">
-                                <button className='inline-flex items-center px-4 py-2 mr-1 text-sm font-medium text-white bg-indigo-500 rounded-md hover:bg-blue-200' onClick={() => { this.gotoUpdateFeedback(currentfeedback._id) }}>
-                                   
-                                        Edit
-                                   
-                                </button>
-                                </div>
-                            }
                             {"  "}
                             {
-                                <button className='inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-200'
+                                <button className='inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#867556] hover:bg-[#6f6148] rounded-md '
 
                                     onClick={() => {
                                         //Delete the selected record
@@ -195,13 +181,12 @@ export class FeedbackList extends Component {
         const doc = new jsPDF( orientation, unit, size );
 
         const title = "Feedback List Report ";
-        const headers = [["Feedback","User Contact","Employee ID"]];
+        const headers = [["Customer Name","Feedback"]];
 
         const fed = this.state.feedback.map(
             Feedback=>[
-                Feedback.feedback,
-                Feedback.userContact,
-                Feedback.empID
+                Feedback.firstName,
+                Feedback.description,
             ]
         );
 
@@ -233,7 +218,7 @@ export class FeedbackList extends Component {
                                         <td className='flex justify-end gap-2'>
                                             <div class="flex justify-end sm:flex-row sm:text-left sm:justify-end gap-2">
                                                 
-                                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportFeedback()}>
+                                                <button class="text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => this.exportFeedback()}>
                                                     
                                                         Download Report Here
                                                     </button>
@@ -259,9 +244,8 @@ export class FeedbackList extends Component {
                                 <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400' >
                                     <thead className='p-5 text-xs text-gray-700 uppercase border bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                                         <tr>
-                                            <th className="p-2 border-black tbhead ">Feedback</th>
-                                            <th className="p-2 tbhead">Customer Contact</th>
-                                            <th className="p-2 tbhead">Employee ID</th>
+                                            <th className="p-2 border-black tbhead ">Customer Name</th>
+                                            <th className="p-2 tbhead">Feedback Description</th>
                                             <th className="p-2 text-center tbhead">Actions</th>
                                         </tr>
                                     </thead>
@@ -269,23 +253,6 @@ export class FeedbackList extends Component {
                                         {this.state.searchFeedback == "" ? this.feedbackList() : this.searchFeedbackList()}
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="">
-                                <Modal show={this.state.show} onHide={this.closeModalBox} centered size={"xl"}>
-                                    <Modal.Header className='px-5 pt-4 border-2 shadow-md bg-gray-50' closeButton>
-                                        <div class="">
-                                            <Modal.Title className='items-center' >
-                                                <p className='font-semibold text-black uppercase '>
-                                                    Edit Employee
-                                                </p>
-                                            </Modal.Title>
-                                        </div>
-                                    </Modal.Header >
-                                    <Modal.Body className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50'>
-                                        <EditFeedback fedId={this.state.id} key={this.state.id} close={this.closeModalBox} />
-                                    </Modal.Body>
-                                </Modal>
                             </div>
                         </div>
                     </div>

@@ -17,34 +17,37 @@ export class UserLogin extends Component {
             NIC: '',
             user: [],
             password: '',
-
+            firstName:'',
+            pass:''
         }
     }
+
     componentDidMount() {
-        axios.get('http://localhost:5000/user/')
+        axios.get('http://localhost:5000/customer/')
             .then(response => {
                 this.setState({ user: response.data })
+                console.log(response.data)
+
             })
             .catch((error) => {
                 console.log(error);
             })
     }
+
     onChangeNIC(e) {
         this.setState({
-            NIC: e.target.value
+            firstName: e.target.value
         });
     }
 
-
-
     onChangepassword(e) {
         this.setState({
-            password: e.target.value
+            pass: e.target.value
         });
     }
 
     getUserList() {
-        axios.get('http://localhost:5000/user/')
+        axios.get('http://localhost:5000/customer/')
             .then(response => {
                 this.setState({ user: response.data })
             })
@@ -53,18 +56,14 @@ export class UserLogin extends Component {
             })
     }
 
-
     UserList() {
-
-
-
         return this.state.user.map((currentuser) => {
-            if (this.state.NIC == currentuser.NIC && this.state.password == currentuser.password) {
+            if (this.state.firstName == currentuser.firstName && this.state.pass == currentuser.pass) {
 
                 const userRole = currentuser.userRole;
                 console.log(userRole)
 
-                AuthenticationService.successfulLogin(currentuser.NIC, currentuser.userRole)
+                AuthenticationService.successfulLogin(currentuser.firstName, currentuser.pass)
                 console.log(currentuser.NIC, currentuser.userRole)
 
                 window.location = "/nav"
@@ -73,28 +72,24 @@ export class UserLogin extends Component {
 
         });
     }
-
-
-
     onSubmit(e) {
         e.preventDefault();
 
         // let isUserLoggedIn = false;
 
-        if (this.state.NIC.length < 10 || this.state.NIC.length > 12) {
+        if (this.state.firstName.length < 2) {
 
             this.setState({ nicError: "Please enter a valid NIC" })
-        } else if (this.state.NIC.length == 10 || this.state.NIC.length == 12){
-
+        } else{
             // this.UserList();
 
             this.state.user.map((currentuser) => {
-                if (this.state.NIC == currentuser.NIC && this.state.password == currentuser.password) {
+                if (this.state.firstName == currentuser.firstName && this.state.pass == currentuser.pass) {
 
                     const userRole = currentuser.userRole;
                     console.log(userRole)
-                    AuthenticationService.successfulLogin(currentuser.NIC, currentuser.userRole)
-                    console.log(currentuser.NIC, currentuser.userRole)
+                    AuthenticationService.successfulLogin(currentuser.firstName, currentuser.role)
+                    console.log(currentuser.firstName, currentuser.pass)
                     // browserHistory.push("/nav");
 
                     Swal.fire({
@@ -105,35 +100,33 @@ export class UserLogin extends Component {
                         confirmButtonColor: '#333533',
                         iconColor: '#60e004'
                     })
-
                     const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
                     // isUserLoggedIn = true;
-
-
-
-                    if (isUserLoggedIn === true && currentuser.userRole == "Employee Manager") {
-
-                        window.location = "/nav"
-                        window.location = "/"
+                    if (isUserLoggedIn === true && currentuser.role == "employeemanager") {
+                        window.location = "/employee"
                     }
-                    else if (isUserLoggedIn === true && currentuser.userRole == "Customer Manager") {
+                    else if (isUserLoggedIn === true && currentuser.role == "Customer Manager") {
                         window.location = "/customer"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Inventory Manager") {
+                    }else if (isUserLoggedIn === true && currentuser.role == "customermanager") { //done
+                        window.location = "/customer"
+                    } else if (isUserLoggedIn === true && currentuser.role == "inventorymanager") {
                         window.location = "/inventory"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Head Chef") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "Head Chef") {
                         window.location = "/kitchenOrder"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Waiter Staff") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "Waiter Staff") {
                         window.location = "/order"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Product Manager") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "Product Manager") {
                         window.location = "/product"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Delivery Manager") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "Delivery Manager") {
                         window.location = "/delivery"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Finance Manager") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "Finance Manager") {
                         window.location = "/salary"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Employee Manager") {
+                    } else if (isUserLoggedIn === true && currentuser.role == "customer") { //done
+                        window.location = "/customerProfile"
+
+                    } else if (isUserLoggedIn === true && currentuser.role == "superadmin") {
                         window.location = "/employee"
-                    } else if (isUserLoggedIn === true && currentuser.userRole == "Super Admin") {
-                        window.location = "/employee"
+                        
                     } else if (isUserLoggedIn === false) {
                         window.location = "/nav"
                         window.location = "/"
@@ -165,9 +158,7 @@ export class UserLogin extends Component {
     clearData = () => {
         this.setState({
             NIC: '',
-
             password: '',
-
         })
     }
 
@@ -193,7 +184,7 @@ export class UserLogin extends Component {
                                             <input type="text"
                                                 required
                                                 className="form-control "
-                                                value={this.state.NIC}
+                                                value={this.state.firstName}
                                                 onChange={this.onChangeNIC}
                                             /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.nicError}</p>
                                         </div>
@@ -205,7 +196,7 @@ export class UserLogin extends Component {
                                             <input type="password"
                                                 required
                                                 className="form-control"
-                                                value={this.state.password}
+                                                value={this.state.pass}
                                                 onChange={this.onChangepassword}
                                             /><p />
 

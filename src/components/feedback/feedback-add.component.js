@@ -1,77 +1,55 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import AuthenticationService from "../user/AuthenticationService";
 
 export class CreateFeedback extends Component {
     constructor(props) {
         super(props);
-        this.onChangefeedback = this.onChangefeedback.bind(this);
-        this.onChangeuserContact = this.onChangeuserContact.bind(this);
-        this.onChangeempID = this.onChangeempID.bind(this);
-
+        this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            feedback: '',
-            userContact: '',
-            empID: ''
+            id:props.fedId,
+            firstName:'',
+            description:'',
         }
     }
 
-    onChangeempID(e) {
+    onChangeDescription(e) {
         this.setState({
-            empID: e.target.value
+            description: e.target.value
         });
     }
-
-    onChangefeedback(e) {
-        this.setState({
-            feedback: e.target.value
-        });
+    componentDidMount() {
+        const loggedUserId = AuthenticationService.loggedUserId();
+        this.setState({firstName: loggedUserId});
     }
-
-    onChangeuserContact(e) {
-        this.setState({
-            userContact: e.target.value
-        });
-    }
-
-
+    
     onSubmit(e) {
         e.preventDefault();
-
-        const feedbacks = {
-            feedback: this.state.feedback,
-            userContact: this.state.userContact,
-            empID: this.state.empID
+        const feedback = {
+            firstName: this.state.firstName,
+            description: this.state.description,
         }
+        console.log(feedback);
 
-        console.log(feedbacks);
-
-        if (this.state.userContact.length < 5) {
-            this.setState({ userContactError: "User is too short" })
-        }
-        else if (this.state.empID.length < 10) {
-            this.setState({ empIDError: "Employee ID is too short" })
-        } else {
-            axios.post('http://localhost:5000/feedback/', feedbacks)
-
-
+        if(this.state.description.length < 10){
+            this.setState({descriptionError : "Description should contain more than 10 letters."})
+        }else{
+            axios.post('http://localhost:5000/customerFeedback/', feedback)
                 .then(res => {
-
                     console.log(res);
-
                     if (res.status === 200) {
                         this.clearData();
                         Swal.fire({
                             icon: 'success',
                             title: 'Successful',
-                            text: 'Feedback has been added!!',
+                            text: 'Feedback has been created!',
                             background: '#fff',
                             confirmButtonColor: '#333533',
                             iconColor: '#60e004'
                         })
-
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -83,16 +61,14 @@ export class CreateFeedback extends Component {
                         })
                     }
                 })
-
         }
+        window.location = '/customerFeedback';
     }
 
     clearData = () => {
         this.setState({
-            feedback: '',
-            userContact: '',
-            empID: '',
-
+            firstName:'',
+            description:''
         })
     }
 
@@ -104,56 +80,27 @@ export class CreateFeedback extends Component {
                         <div className='items-center overflow-hidden'>
                             <div className=''>
                                 <div class="grid grid-cols-1 gap-4 content-start pt-5 px-20">
-                                    <form className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50' onSubmit={this.onSubmit}>
-                                        <div class="">
-                                            <p className='text-4xl font-semibold text-black uppercase'>
-                                                Add Feedback
-                                            </p>
-
-                                            <div class="">
-                                                <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Feedback </label>
-                                                <textarea type="text"
-                                                    required
-                                                    className="form-control "
-                                                    value={this.state.feedback}
-                                                    onChange={this.onChangefeedback}
-                                                />
-                                               <p/>
-                                            </div>
-                                            <div className="form-group">
-                                                <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Customer Contact</label>
-                                                <input type="text"
-                                                    required
-                                                    className="form-control"
-                                                    value={this.state.userContact}
-                                                    onChange={this.onChangeuserContact}
-                                                /><p className="validateMsg">{this.state.userContactError}</p>
-
-                                            </div>
-                                            <p />
-
-
-
-                                            <div class="">
-                                                <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >Employee ID</label>
-                                                <input type="text"
-                                                    required
-                                                    className="form-control"
-                                                    value={this.state.empID}
-                                                    onChange={this.onChangeempID}
-                                                /><p className="validateMsg">{this.state.empIDError}</p>
-
-                                            </div>
-
-
-
-
-                                            <p />
+                                    <div className="formdiv">
+                                        <form className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50' onSubmit={this.onSubmit}>
+                                            <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>Create a FeedBack</p>
+                                                <div className="form-group">
+                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >We Value Your comments</label>
+                                                    <textarea type="text"
+                                                        required
+                                                        rows="4" cols="50"
+                                                        className="form-control"
+                                                        value={this.state.description}
+                                                        onChange={this.onChangeDescription}
+                                                    /><p className="validateMsg">{this.state.descriptionError}</p>
+                                                </div>
                                             <div className="text-center align-middle form-group">
-                                                <input className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Add Feedback" />
+                                                <input className='text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Edit Feedback" />
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

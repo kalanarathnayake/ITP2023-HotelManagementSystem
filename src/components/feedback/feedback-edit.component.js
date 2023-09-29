@@ -3,88 +3,53 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 
 export default class EditFeedback extends Component {
-
     constructor(props) {
         super(props);
-
-
-        this.onChangefeedback = this.onChangefeedback.bind(this);
-        this.onChangeuserContact = this.onChangeuserContact.bind(this);
-        this.onChangeempID = this.onChangeempID.bind(this);
-       
+        this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             id:props.fedId,
-            feedback:'',
-            userContact:'',
-            empID: ''
+            firstName:'',
+            description:'',
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/feedback/' + this.state.id)
+        axios.get('http://localhost:5000/customerFeedback/' + this.state.id)
             .then(response => {
                 this.setState({
-                    feedback: response.data.feedback,
-                    userContact: response.data.userContact,
-                    empID: response.data.empID
-
+                    firstName: response.data.firstName,
+                    description: response.data.description,
                 })
             })
             .catch(function (error) {
                 console.log(error);
             })
-
     }
 
-    onChangeempID(e) {
+    onChangeDescription(e) {
         this.setState({
-            empID: e.target.value
+            description: e.target.value
         });
     }
-
-    onChangefeedback(e) {
-        this.setState({
-            feedback: e.target.value
-        });
-    }
-
-    onChangeuserContact(e) {
-        this.setState({
-            userContact: e.target.value
-        });
-    }
-
-
-
     
-
     onSubmit(e) {
         e.preventDefault();
-
         const feedback = {
-            feedback: this.state.feedback,
-            userContact: this.state.userContact,
-            empID: this.state.empID
-
+            firstName: this.state.firstName,
+            description: this.state.description,
         }
-
         console.log(feedback);
 
-        if(this.state.userContact.length < 5){
-            this.setState({userContactError : "User is too short"})
-        }
-        else if(this.state.empID.length < 10){
-            this.setState({empIDError : "Employee ID is too short"})
+        if(this.state.description.length < 10){
+            this.setState({descriptionError : "Description should contain more than 10 letters."})
         }else{
-
-        axios.put('http://localhost:5000/feedback/' + this.state.id, feedback)
+        axios.put('http://localhost:5000/customerFeedback/' + this.state.id, feedback)
             .then(res => {
                 console.log(res);
 
                 if (res.status === 200) {
-                   
                     this.props.close();
 
                     Swal.fire({
@@ -95,9 +60,6 @@ export default class EditFeedback extends Component {
                         confirmButtonColor: '#333533',
                         iconColor: '#60e004'
                     })
-
-                   
-
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -110,7 +72,6 @@ export default class EditFeedback extends Component {
                 }
             })
         }
-
     }
 
 
@@ -123,42 +84,31 @@ export default class EditFeedback extends Component {
                             <div className=''>
                                 <div class="grid grid-cols-1 gap-4 content-start pt-5 px-20">
                                     <div className="formdiv">
-                                        <form className='px-12 py-12 border-2 rounded-lg shadow-md bg-gray-50' onSubmit={this.onSubmit}>
-                                           
-                                            
+                                        <form className='' onSubmit={this.onSubmit}>
+                                            <p className='text-4xl font-semibold text-black uppercase drop-shadow-lg'>Edit Your Feedback</p>
                                                 <div className="form-group">
-                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Feedback</label>
+                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Customer Name</label>
                                                     <input type="text"
                                                         // required
+                                                        disabled
                                                         className="form-control"
-                                                        value={this.state.feedback}
-                                                        onChange={this.onChangefeedback}
+                                                        value={this.state.firstName}
+                                                        // onChange={this.onChangefeedback}
 
                                                     /><p/>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >User Contact</label>
-                                                    <input type="text"
+                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >Your Feedback</label>
+                                                    <textarea type="text"
                                                         required
+                                                        rows="4" cols="50"
                                                         className="form-control"
-                                                        value={this.state.userContact}
-                                                        onChange={this.onChangeuserContact}
-                                                    /><p className="validateMsg">{this.state.userContactError}</p>
+                                                        value={this.state.description}
+                                                        onChange={this.onChangeDescription}
+                                                    /><p className="validateMsg">{this.state.descriptionError}</p>
                                                 </div>
-                                           
-                                           
-                                                <div className="form-group">
-                                                    <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Employee ID</label>
-                                                    <input type="text"
-                                                        required
-                                                        className="form-control"
-                                                        value={this.state.empID}
-                                                        onChange={this.onChangeempID}
-                                                    /><p className="validateMsg">{this.state.empIDError}</p>
-                                                </div>
-                                              
                                             <div className="text-center align-middle form-group">
-                                                <input className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Edit Feedback" />
+                                                <input className='text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Edit Feedback" />
                                             </div>
                                         </form>
 

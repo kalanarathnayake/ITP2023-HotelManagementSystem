@@ -1,8 +1,8 @@
 class AuthenticationService {
     
-    successfulLogin(NIC, userRole){
-        sessionStorage.setItem('authenticatedUserId', NIC);
-        sessionStorage.setItem('authenticatedUserRole', userRole);
+    successfulLogin(firstName, role){
+        sessionStorage.setItem('authenticatedUserId', firstName);
+        sessionStorage.setItem('authenticatedUserRole', role);
     }
 
     logout(){
