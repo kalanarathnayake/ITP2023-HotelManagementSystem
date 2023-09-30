@@ -123,17 +123,17 @@ export class CreateLeave extends Component {
 
         console.log(leave);
 
-        // if (!this.state.orderId) {
-        //     this.setState({ orderIdError: "order Id cannot be null" })
-        // }else if (this.state.date.length < 4) {
-        //     this.setState({ dateError: "Please select the date" })
-        // }else if (this.state.supplier.length < 5) {
-        //     this.setState({ supplierError: "Supplier Name cannot be shorter than 5 letters." })
-        // }else if (this.state.itemType.length < 4) {
-        //     this.setState({ itemTypeError: "Product Category cannot be shorter than 4 digits." })
-        // }else if(this.state.requestedQuantity <= 0){
-        //     this.setState({requestedQuantityError : "Quantity can not be zero 0 minus."})
-        // } else {
+        if (!this.state.lastName) {
+            this.setState({ lastNameError: "Last Name cannot be null" })
+        }else if (!this.state.empId) {
+            this.setState({ empIdError: "Emp ID cannot be null" })
+        }else if (!this.state.fromD || !this.state.toD) {
+            this.setState({ DateError: "Date ID cannot be null" })
+        }else if (!this.state.nod) {
+            this.setState({ nodError: "please enter number of days" })
+        }else if(!this.state.reason){
+            this.setState({reasonError : "please enter reason."})
+        } else {
             axios.post('http://localhost:5000/leave/', leave)
                 .then(res => {
                     console.log(res);
@@ -159,7 +159,7 @@ export class CreateLeave extends Component {
                         })
                     }
                 })
-        // }
+        }
     }
 
     clearData = () => {
@@ -214,7 +214,7 @@ export class CreateLeave extends Component {
                                                         className="form-control"
                                                         value={this.state.empId}
                                                         onChange={this.onChangeEmpId}
-                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.emailError}</p>
+                                                    /><p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.empIdError}</p>
                                                 </div>
                                                 {/* <div className="form-group">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' >Position</label>
@@ -236,7 +236,7 @@ export class CreateLeave extends Component {
                                                             selected={this.state.fromD}
                                                             onChange={this.onChangeFromD}
                                                     />
-                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.phone1Error}</p>
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.DateError}</p>
                                                     </div>
                                                     <div className="form-group">
                                                                                                             <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>To Date</label>
@@ -247,7 +247,7 @@ export class CreateLeave extends Component {
                                                             selected={this.state.toD}
                                                             onChange={this.onChangeToD}
                                                     />
-                                                            <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.phone2Error}</p>
+                                                            <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.DateError}</p>
                                                     </div>
                                                 </div>
                                             <div class="grid grid-cols-2 gap-4 form-group">
@@ -259,7 +259,7 @@ export class CreateLeave extends Component {
                                                             value={this.state.nod}
                                                             onChange={this.onChangeNod}
                                                         />
-                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.addressError}</p>
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.nodError}</p>
                                                     </div>
                                                     <div className="form-group">
                                                         <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Reason</label>
@@ -269,7 +269,7 @@ export class CreateLeave extends Component {
                                                             value={this.state.reason}
                                                             onChange={this.onChangeReason}
                                                         />
-                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.addressError}</p>
+                                                        <p className="block text-lg font-medium text-red-900 dark:text-white">{this.state.reasonError}</p>
                                                     </div>
                                                 </div>
                                             <div className="text-center align-middle form-group">
