@@ -89,13 +89,11 @@ export class CreateEmployee extends Component {
 
         console.log(employee);
 
-        const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
         if (this.state.empId.length <= 5) {
             this.setState({ empIDError: "Employee ID should be 5 characters." })
-        }else if (this.state.firstName.length <= 5) {
+        }else if (this.state.firstName.length <= 3) {
             this.setState({ firstNameError: "First Name characters should be more then 5." })
-        }else if (this.state.lastName.length <= 5) {
+        }else if (this.state.lastName.length <= 3) {
             this.setState({ lastNameError: "Last Name characters should be more then 5." })
         }else if (this.state.phoneNumber.length !== 10) {
             this.setState({ phoneNoError: "Contact Number is invalid." })
@@ -119,6 +117,7 @@ export class CreateEmployee extends Component {
                         confirmButtonColor: '#333533',
                         iconColor: '#60e004'
                     })
+                    window.location = '/employee';
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -131,7 +130,6 @@ export class CreateEmployee extends Component {
                 }
             })
         }
-        window.location = '/employee';
     }
 
     clearData = () => {
@@ -215,7 +213,7 @@ export class CreateEmployee extends Component {
                                             <div className="grid grid-cols-3 gap-4 form-group">
                                                 <div class="">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' for="grid-state">Salary</label>
-                                                <input type="text"
+                                                <input type="number"
                                                     required
                                                     className="form-control"
                                                     value={this.state.salary}
@@ -235,7 +233,7 @@ export class CreateEmployee extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Age</label>
-                                                    <input type="text"
+                                                    <input type="number"
                                                         required
                                                         className="form-control"
                                                         value={this.state.age}

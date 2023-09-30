@@ -50,6 +50,7 @@ export class CreateFeedback extends Component {
                             confirmButtonColor: '#333533',
                             iconColor: '#60e004'
                         })
+                        window.location = '/customerFeedback';
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -62,7 +63,6 @@ export class CreateFeedback extends Component {
                     }
                 })
         }
-        window.location = '/customerFeedback';
     }
 
     clearData = () => {
@@ -94,7 +94,7 @@ export class CreateFeedback extends Component {
                                                     /><p className="validateMsg">{this.state.descriptionError}</p>
                                                 </div>
                                             <div className="text-center align-middle form-group">
-                                                <input className='text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Edit Feedback" />
+                                                <input className='text-white bg-[#867556] hover:bg-[#6f6148] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' type="submit" value="Create Feedback" />
                                             </div>
                                         </form>
 

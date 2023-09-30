@@ -69,7 +69,7 @@ export class CreateInventory extends Component {
             this.setState({ itemIdError: "Product Id cannot be shorter than 3 digits." })
         }else if (this.state.itemName.length < 3) {
             this.setState({ itemNameError: "Product Name cannot be shorter than 3 digits." })
-        }else if (this.state.itemCategory.length == null) {
+        }else if (this.state.itemCategory.length == null || !this.state.itemCategory) {
             this.setState({ itemCategoryError: "Product Category cannot be shorter than 4 digits." })
         } else if (parseInt(this.state.quantity, 10) <= 0) {
             this.setState({ quantityError: "Quantity can not be minus" })
@@ -92,6 +92,8 @@ export class CreateInventory extends Component {
                             confirmButtonColor: '#333533',
                             iconColor: '#60e004'
                         })
+                                window.location = '/inventory';
+
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -104,7 +106,6 @@ export class CreateInventory extends Component {
                     }
                 })
         }
-        window.location = '/inventory';
     }
 
     clearData = () => {
@@ -190,7 +191,7 @@ export class CreateInventory extends Component {
                                                     <div className="form-group">
                                                         <label for="large-input" className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>
                                                             Quantity                                                    </label>
-                                                        <input type="text"
+                                                        <input type="number"
                                                             className="form-control"
                                                             value={this.state.quantity}
                                                             onChange={this.onChangeQuantity}

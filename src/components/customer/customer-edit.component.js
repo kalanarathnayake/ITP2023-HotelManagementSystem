@@ -120,13 +120,13 @@ export default class EditCustomer extends Component {
         const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (!this.state.firstName) {
             this.setState({ firstNameError: "Your First Name cannot be null." })
-        }else if (!this.state.lastName) {
-            this.setState({ lastNameError: "Your Last Name cannot be null." })
+        }else if (!this.state.lastName || this.state.lastName.length < 4 ) {
+            this.setState({ lastNameError: "Your Last Name cannot be null or less than 4 characters." })
         }else if (this.state.phone1.length !== 10) {
             this.setState({ phone1Error: "Please Enter a valid Phone Number." })
         }else if (this.state.phone2.length !== 10) {
             this.setState({ phone2Error: "Please Enter a valid Phone Number." })
-        }else if (!this.state.email || regex.test(this.state.email) === false) {
+        }else if (regex.test(this.state.email) == false) {
             this.setState({ emailError: "Please Enter a valid email." })
         } else if (!this.state.country) {
             this.setState({ countryError: "Country cannot be null." })

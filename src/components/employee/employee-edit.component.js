@@ -218,7 +218,7 @@ export default class  EditEmployee extends Component {
                                             <div className="grid grid-cols-3 gap-4 form-group">
                                                 <div class="">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white' for="grid-state">Salary</label>
-                                                <input type="text"
+                                                <input type="number"
                                                     required
                                                     className="form-control"
                                                     value={this.state.salary}
@@ -238,7 +238,7 @@ export default class  EditEmployee extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className='block mb-2 text-lg font-medium text-gray-900 dark:text-white'>Age</label>
-                                                    <input type="text"
+                                                    <input type="number"
                                                         required
                                                         className="form-control"
                                                         value={this.state.age}

@@ -85,6 +85,7 @@ class navbar extends Component {
                       <div>
                         <a href="/employee" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Employee Management</a>
                         <a href="/leave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">Leave Management</a>
+                        <a href="/empLeave" className="m-2 text-black no-underline duration-300 hover:text-orange-800 hover:font-normal">My Leave Dash</a>
                       </div>
                     </>
                   }
